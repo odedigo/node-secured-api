@@ -9,6 +9,7 @@ const User            = require("../models/UserModel");
 var jwt               = require('jsonwebtoken');
 var config            = require('../config/config');
 const logger          = require('../utils/utils');
+var userController    = require("../controllers/UserController");
 
 var router = express.Router()
 
