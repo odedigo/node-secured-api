@@ -158,3 +158,7 @@ Example: DELETE `/api/task/delete/5cc8392af6eb52092c672fa7`
         "success": true,
         "message": "Task successfully deleted"
     }
+
+### Credits and References
+This work was insiredby [Daniel Deutsch](https://github.com/Createdd/Writing/blob/master/2017/articles/AuthenticationIntro.md#structure) and
+[Chris Sevilleja](https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens)
