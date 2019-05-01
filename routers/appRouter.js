@@ -31,7 +31,7 @@ router.post('/auth', function (req, res, next) {
 
   // Validate login params (email and password)
   if (req.body.logemail && req.body.logpassword) {
-    // Authenticate the user
+    // Authenticate the user.
     User.authenticate(req.body.logemail, req.body.logpassword, function (error, user) {
       if (error || !user) {
         return res.status(401).json({ success: false, message: "Authentication failed" });
