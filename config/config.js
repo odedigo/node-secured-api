@@ -46,7 +46,7 @@ else {
             "username": "<username>",
             "password": "<password>",
             "path": "?retryWrites=true"    
-        }
+        } 
 
     }
 }
