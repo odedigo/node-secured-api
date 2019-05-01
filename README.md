@@ -79,7 +79,7 @@ Example:
 
     /api/task/get/5cc8391df6eb52092c672fa6
 
-Response:
+Response: `HTTP response code: 200`
 
     {
     "priority": 3,
@@ -119,4 +119,42 @@ Response:  `HTTP response code: 201`
     "created": "2019-05-01T09:23:58.542Z",
     "modified": "2019-05-01T09:23:58.544Z",
     "__v": 0
+    }
+
+# Updating an existing task
+To update a task, issue a PUT request to  `/api/task/update/id` where **id** is the id of the task. The body should include at least one of the following parameters in a Json format:
+1. Task title
+2. Task priority
+3. Task contents
+
+The response is the updated task in the form of a Json file.
+
+Example (changing the priority of a task):
+PUT `/api/task/update/5cc8392af6eb52092c672fa7`
+
+    {
+	"priority" : "3",
+	}   
+
+Response:  `HTTP response code: 201`
+
+    {
+        "_id": "5cc8392af6eb52092c672fa7",
+        "priority": 3,
+        "title": "task 7",
+        "owner": "5cc2a6c44677803ea08eb260",
+        "contents": "this is a task",
+        "created": "2019-04-30T12:01:46.646Z",
+        "modified": "2019-05-01T09:30:32.541Z",
+        "__v": 0
+    }
+
+# Delete a task
+To delete a task, issue a DELETE request to `/api/task/delete/id` where **id** is the id of the task. The response is a Json.
+
+Example: DELETE `/api/task/delete/5cc8392af6eb52092c672fa7`
+
+    {
+        "success": true,
+        "message": "Task successfully deleted"
     }
