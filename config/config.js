@@ -21,9 +21,9 @@ if (isProduction) {
         "db" : {
             "protocol": "mongodb+srv://",
             "host": "occluster0-uzjpb.mongodb.net",
-            "name" : "stories",
-            "username": "odedigo",
-            "password": "B9riGUpL63mpcBB",
+            "name" : "<db name>",
+            "username": "<username>",
+            "password": "<password>",
             "path": "?retryWrites=true"    
         }
     }
@@ -42,9 +42,9 @@ else {
         "db" : {
             "protocol": "mongodb+srv://",
             "host": "occluster0-uzjpb.mongodb.net",
-            "name" : "stories",
-            "username": "odedigo",
-            "password": "B9riGUpL63mpcBB",
+            "name" : "<db name>",
+            "username": "<username>",
+            "password": "<password>",
             "path": "?retryWrites=true"    
         }
 
