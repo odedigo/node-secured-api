@@ -21,9 +21,9 @@ if (isProduction) {
         "db" : {
             "protocol": "mongodb+srv://",
             "host": "occluster0-uzjpb.mongodb.net",
-            "name" : "<db name>",
-            "username": "<username>",
-            "password": "<password>",
+            "name" : "stories",
+            "username": "odedigo",
+            "password": "B9riGUpL63mpcBB",
             "path": "?retryWrites=true"    
         }
     }
@@ -37,16 +37,16 @@ else {
         },
         "auth" : {
             "secret" : "G8Ut0VWh6o=djj+@gC&o7<!|D[~LHljjyN?4q*3ILF^DZlR%y",
-            "token_timeout": 60*60*24
+            "token_timeout": 60*60*1
         },
         "db" : {
             "protocol": "mongodb+srv://",
             "host": "occluster0-uzjpb.mongodb.net",
-            "name" : "<db name>",
-            "username": "<username>",
-            "password": "<password>",
+            "name" : "stories",
+            "username": "odedigo",
+            "password": "B9riGUpL63mpcBB",
             "path": "?retryWrites=true"    
-        } 
+        }
 
     }
 }
