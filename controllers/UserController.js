@@ -33,7 +33,7 @@ exports.createNewUser = (req, res) => {
           res.status(500).send(err);
           return;
         }
-        res.status(201).json("OK");
+        res.status(201).json({ success: true, message: "User created" });
       });
     }
 };

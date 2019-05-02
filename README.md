@@ -47,7 +47,9 @@ On error, the response is `400` with a Json in the HTTP body
 ### Logout
 You can issue a GET logout request to the `/api/logout` URI. To access the API again, you'd need to re-authenticate.
 
-# Get all tasks
+# Tasks
+
+## Get all tasks
 To get a list of all tasks, issue a GET request to `/api/task/all`. The response is in the form of a Json file
 
     [
@@ -72,7 +74,7 @@ To get a list of all tasks, issue a GET request to `/api/task/all`. The response
     }
     ]
 
-# Get a specific task
+## Get a specific task
 To get a specific task by its id, issue a GET request to `/api/task/get/id` where **id** is the id of the task. The response is in the form of a Json file
 
 Example:
@@ -92,7 +94,7 @@ Response: `HTTP response code: 200`
     "__v": 0
     }
 
-# Create a new task
+## Create a new task
 To create a new task, issue a PUT request to `/api/task/create` with Json in the HTTP body containing 3 parameters
 1. Task title
 2. Task priority
@@ -121,7 +123,7 @@ Response:  `HTTP response code: 201`
     "__v": 0
     }
 
-# Updating an existing task
+## Updating an existing task
 To update a task, issue a PUT request to  `/api/task/update/id` where **id** is the id of the task. The body should include at least one of the following parameters in a Json format:
 1. Task title
 2. Task priority
@@ -149,7 +151,7 @@ Response:  `HTTP response code: 201`
         "__v": 0
     }
 
-# Delete a task
+## Delete a task
 To delete a task, issue a DELETE request to `/api/task/delete/id` where **id** is the id of the task. The response is a Json.
 
 Example: DELETE `/api/task/delete/5cc8392af6eb52092c672fa7`
@@ -157,6 +159,64 @@ Example: DELETE `/api/task/delete/5cc8392af6eb52092c672fa7`
     {
         "success": true,
         "message": "Task successfully deleted"
+    }
+
+# Users
+The project provides several user related APIs as well as some internal user related functions used by the authentication process
+
+## Create a new user
+To create a new user, issue a PUT request to `/api/user/create` with Json in the HTTP body containing 4 parameters (similar to an HTML form)
+1. Username
+2. Email
+3. Password
+4. Password confirmation (retype the password)
+
+The response is a Json describing the newly created user
+
+Example:
+
+    {
+	"username": "someone",
+	"email" : "me@something.com",
+	"password" : "this is a password"
+	"passwordConf" : "this is a password"
+	}
+
+Response:  `HTTP response code: 201`
+
+    {
+        "success": true,
+        "message": "User created"
+    }
+
+If the email or username is already in the DB, the response is
+    {
+        "driver": true,
+        "name": "MongoError",
+        "index": 0,
+        "code": 11000,
+        "errmsg": "E11000 duplicate key error collection: stories.users index: email_1 dup key: { : \"user@email.com\" }"
+    }
+
+## Get a user
+To retrieve a specific user by its id, issue a GET request to `/api/user/get/:id` where **id** is the id of the user. 
+
+Example:    `/api/user/get/5cc4442b2233f632c452d31c`
+
+Response:  `HTTP response code: 200`
+    {
+    "_id": "5cc4442b9233f632c452d31c",
+    "email": "oded@gmail.com",
+    "username": "oded",
+    "password": "$2b$10$tL4Bypc63wSruu2YmLDr2ufx/fW8HB634uXrhM9/pfSVOQ2mcZxo6",
+    "token": "5678",
+    "last_login": "2019-04-29T18:26:17.199Z"
+    }
+
+On error the response is
+    {
+        "success": false,
+        "message": "Failed to retrieve user"
     }
 
 ### Credits and References
