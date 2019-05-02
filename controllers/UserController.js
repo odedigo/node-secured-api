@@ -13,7 +13,7 @@ const logger    = require('../utils/utils');
  * @param req.body is a json containing username, password and email
  */
 exports.createNewUser = (req, res) => {
-console.log|("sdasfd");
+
   if (req.body.email &&
     req.body.username &&
     req.body.password &&
@@ -36,6 +36,19 @@ console.log|("sdasfd");
         res.status(201).json("OK");
       });
     }
+};
+
+/**
+ * @desc get a user by its id
+ */
+exports.getUser = (req, res) => {
+  User.findById(req.params.userId , (err, user) => {
+    if (err) {
+      res.status(401).json({ success: false, message: "Failed to retrieve user" });     
+      return;      
+    }
+    res.status(200).json(user);
+  });
 };
 
 /**

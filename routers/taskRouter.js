@@ -5,9 +5,9 @@
  * April 2019
  */
 var express             = require('express');
-const taskController   = require("../controllers/TaskController");
+const taskController    = require("../controllers/TaskController");
 
-var router = express.Router()
+var router = express.Router();
 
 /**
  * @desc retrieve all tasks
@@ -35,7 +35,7 @@ router.get('/get/:taskId', function (req, res) {
 router.put('/create', function (req, res) {
     taskController.createTask(req, res);
 })
-module.exports = router
+
 
 /**
  * @desc updates an existing task by its id
