@@ -118,10 +118,4 @@ router.get('/logout', function (req, res, next) {
     });
 });
 
-/////////////////////////// USER RELATED //////////////////////////
-
-/*router.get('/user/create', function (req, res) {
-    userController.createNewUser(req, res);
-})*/
-
 module.exports = router

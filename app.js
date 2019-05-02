@@ -13,6 +13,7 @@ var logger        = require('./utils/utils')
 // Routers
 var appRouter     = require('./routers/appRouter')
 var taskRouter    = require('./routers/taskRouter')
+var userRouter    = require('./routers/userRouter')
 
 //Configure isProduction variable
 config.app.isProduction = process.env.NODE_ENV === 'production';
@@ -41,6 +42,7 @@ app.use(express.static(__dirname + '/pages'));
 // Routers
 app.use('/api', appRouter);         // This one must be the first as it handles the authentication
 app.use('/api/task', taskRouter);
+app.use('/api/user', userRouter);
 
 // Error handlers 404 if nothing was caught so far
 app.get('*', function(req, res){
