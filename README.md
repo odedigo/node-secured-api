@@ -48,7 +48,7 @@ On error, the response is `400` with a Json in the HTTP body (the 'message' fiel
     "message": "Authentication failed. Missing fields"
     }
 
-Or
+Or response code `401`
 
     {
         "success": false,
@@ -57,6 +57,28 @@ Or
 
 ### Logout
 You can issue a GET logout request to the `/api/logout` URI. To access the API again, you'd need to re-authenticate.
+
+# API responses
+Upon success, the API responds with a `2xx` response. There are 2 types of responses:
+1. A Json with data
+2. A Json with success indication in the form of
+
+    {
+        "success": true,
+        "message": "Task successfully deleted"
+    }
+
+where "success" may be true or false and "message" provide additional information.
+
+On error, you also might get 2 types of responses:
+1. A Json with failure indication in the form of
+
+    {
+        "success": false,
+        "message": "Authentication failed"
+    }
+
+2. A redirect to the root index.html page
 
 # Tasks
 
