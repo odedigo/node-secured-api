@@ -14,16 +14,20 @@ This project implements a simple, but secured, REST API for managing Tasks. The 
 3. Create a new task
 4. Update an existing task
 5. Delete a task
+6. Create a user
+7. Retrieve a specific user, by its id
 
 # Authentication
 
-To access the API, an application must first get a token using an HTTP GET request to `/api/auth/`. The HTTP header should be
+To access the API, an application must first get a token using an HTTP GET request to `/api/auth/`. The Content-Type HTTP header should be
 
     Content-Type: application/x-www-form-urlencoded
 
 and the body should include the username and password data (as if sent from an HTML form)
 
     logemail=<email urlencoded>&logpassword=<password urlencoded>
+
+Example:  logemail=someone%40gmail.com&logpassword=1%3C234%3C    
 
 If successful, the API returns `200` with a Json in the HTTP body
 
@@ -35,13 +39,20 @@ The API expects this token to be used in each consecutive request as an HTTP hea
 
     x-access-token: some-token
 
-**Note:** The API expects users to be provisioned on the server with an email and password so it would be able to validate the login credentials.
+**Note:** The API expects users to be provisioned on the server with an email and password so it would be able to validate the login credentials. Use the user related API calls to create users.
 
-On error, the response is `400` with a Json in the HTTP body
+On error, the response is `400` with a Json in the HTTP body (the 'message' field provide guidance on why the call failed)
 
     {
     "success": false,
     "message": "Authentication failed. Missing fields"
+    }
+
+Or
+
+    {
+        "success": false,
+        "message": "Authentication failed"
     }
 
 ### Logout
