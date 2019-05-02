@@ -253,6 +253,9 @@ On error the response is
         "message": "Failed to retrieve user"
     }
 
+# Configuration
+The project's configuration is stored in the [config/config.js](config/config.js) file. It contains a production as well as a dev configuration which is automatically determined by the `process.env.NODE_ENV` value ('production' or 'development').
+
 ### Credits and References
 This work was inspired by [Daniel Deutsch](https://github.com/Createdd/Writing/blob/master/2017/articles/AuthenticationIntro.md#structure) and
 [Chris Sevilleja](https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens)
