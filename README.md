@@ -63,20 +63,20 @@ Upon success, the API responds with a `2xx` response. There are 2 types of respo
 1. A Json with data
 2. A Json with success indication in the form of
 
-    {
+    `{
         "success": true,
         "message": "Task successfully deleted"
-    }
+    }`
 
 where "success" may be true or false and "message" provide additional information.
 
 On error, you also might get 2 types of responses:
 1. A Json with failure indication in the form of
 
-    {
+    `{
         "success": false,
         "message": "Authentication failed"
-    }
+    }`
 
 2. A redirect to the root index.html page
 
