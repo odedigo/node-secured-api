@@ -1,3 +1,4 @@
+*Check out* [Free Your Mind](odedc.net)
 
 # Introduction
 
@@ -253,5 +254,5 @@ On error the response is
     }
 
 ### Credits and References
-This work was insiredby [Daniel Deutsch](https://github.com/Createdd/Writing/blob/master/2017/articles/AuthenticationIntro.md#structure) and
+This work was inspired by [Daniel Deutsch](https://github.com/Createdd/Writing/blob/master/2017/articles/AuthenticationIntro.md#structure) and
 [Chris Sevilleja](https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens)
