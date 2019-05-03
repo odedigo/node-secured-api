@@ -28,7 +28,7 @@ and the body should include the username and password data (as if sent from an H
 
     logemail=<email urlencoded>&logpassword=<password urlencoded>
 
-Example:  logemail=someone%40gmail.com&logpassword=1%3C234%3C    
+Example:  `logemail=someone%40gmail.com&logpassword=1%3C234%3C`    
 
 If successful, the API returns `200` with a Json in the HTTP body
 
@@ -75,7 +75,7 @@ Ifthe token is valid, it looks for a user (in the DB) with a matching token. If 
 
 if a user is found, the appRouter forwards the request to the subsequent routers.
 
-### Logout
+## Logout
 You can issue a GET logout request to the `/api/logout` URI. To access the API again, you'd need to re-authenticate.
 
 *Note* that JWT does not support logging out (except for a token timeout). When requested to logout, the application replaces the user's token in the DB with an "Invalid" value so that subsequent calls will not be able to find a matching user.
@@ -125,7 +125,6 @@ To get a list of all tasks, issue a GET request to `/api/task/all`. The response
         "contents": "this is a task",
         "created": "2019-04-30T15:14:56.998Z",
         "modified": "2019-04-30T15:14:57.000Z",
-        "__v": 0
     }
     ]
 
@@ -146,7 +145,6 @@ Response: `HTTP response code: 200`
     "contents": "this is a task",
     "created": "2019-04-30T12:01:33.757Z",
     "modified": "2019-04-30T12:01:33.762Z",
-    "__v": 0
     }
 
 ## Create a new task
@@ -175,7 +173,6 @@ Response:  `HTTP response code: 201`
     "contents": "this is a task",
     "created": "2019-05-01T09:23:58.542Z",
     "modified": "2019-05-01T09:23:58.544Z",
-    "__v": 0
     }
 
 ## Updating an existing task
@@ -203,7 +200,6 @@ Response:  `HTTP response code: 201`
         "contents": "this is a task",
         "created": "2019-04-30T12:01:46.646Z",
         "modified": "2019-05-01T09:30:32.541Z",
-        "__v": 0
     }
 
 ## Delete a task
