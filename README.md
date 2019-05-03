@@ -78,6 +78,8 @@ if a user is found, the appRouter forwards the request to the subsequent routers
 ### Logout
 You can issue a GET logout request to the `/api/logout` URI. To access the API again, you'd need to re-authenticate.
 
+*Note* that JWT does not support logging out (except for a token timeout). When requested to logout, the application replaces the user's token in the DB with an "Invalid" value so that subsequent calls will not be able to find a matching user.
+
 # API responses
 Upon success, the API responds with a `2xx` response. There are 2 types of responses:
 1. A Json with data
