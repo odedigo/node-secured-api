@@ -33,7 +33,7 @@ const options = {
 };
 
 exports.connectToDB = (callback) => {
-// Connect to MongoDB
+// Connect to MongoDB 
     var db = mongoose.connect(getDbUri(), options).then(
     () => {
       logger.info("Database connection established!","db.connectToDB");

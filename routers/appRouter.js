@@ -90,7 +90,7 @@ router.use(function(req, res, next) {
           }
           // Set the user ID to be used by the handlers
           req.userId = id;          
-          next();
+          next(); // pass the request to the next routers
         });
       }
     });

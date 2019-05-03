@@ -8,7 +8,7 @@ const express     = require("express");
 const bodyParser  = require("body-parser");
 var config        = require('./config/config');
 var compression   = require('compression');
-var appDb         = require("./db");     // triggers SB connection
+var appDb         = require("./db");     
 var logger        = require('./utils/utils');
 // Routers
 var appRouter     = require('./routers/appRouter');
@@ -38,13 +38,12 @@ app.use(compression()); //Compress all routes
 // Handles queries to the root of the site
 app.use(express.static(__dirname + '/pages'));
 
-
 // Routers
 app.use('/api', appRouter);         // This one must be the first as it handles the authentication
 app.use('/api/user', userRouter);
 app.use('/api/task', taskRouter);
 
-// Error handlers 404 if nothing was caught so far
+// Error handlers 404 if nothing was caught so far in the routers
 app.get('*', function(req, res){
   res.status(404).redirect('/');
 });
@@ -58,7 +57,7 @@ app.post('*', function(req, res){
   res.status(404).redirect('/');
 });
 
-// Connect to MongoDB. 
+// Connect to MongoDB and start server
 appDb.connectToDB(function(status) {
   // Start server (listen)
   app.listen(port, () => {
