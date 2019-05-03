@@ -36,9 +36,19 @@ If successful, the API returns `200` with a Json in the HTTP body
     "success": true,
     "token": "some-token"
     }
-The API expects this token to be used in each consecutive request as an HTTP header
+The API expects this token to be used in each consecutive request as an HTTP header:
 
     x-access-token: some-token
+
+or as a URI attribute:
+
+    /api/task/create?token=the-token
+
+or as a Json in the HTTP body:
+
+    {
+    	"token" : the-token
+    }
 
 **Note:** The API expects users to be provisioned on the server with an email and password so it would be able to validate the login credentials. Use the user related API calls to create users.
 
@@ -55,6 +65,15 @@ Or response code `401`
         "success": false,
         "message": "Authentication failed"
     }
+
+## User Validation
+When a request arrives, the application looks for the authentication token in the  `x-access-token` the HTTP body (Json) or the URI. If the token does not exist, the application would respond with a `401` (Unauthorized).
+
+If the token exists, it uses JWT to verify the token's validity. If not valid, it responds with a `401`.
+
+Ifthe token is valid, it looks for a user (in the DB) with a matching token. If such a user is not found, an `401` response is sent back. 
+
+if a user is found, the appRouter forwards the request to the subsequent routers.
 
 ### Logout
 You can issue a GET logout request to the `/api/logout` URI. To access the API again, you'd need to re-authenticate.
