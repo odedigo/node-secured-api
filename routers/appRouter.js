@@ -86,11 +86,7 @@ router.use(function(req, res, next) {
         userController.readUserByToken(token, next, function (id, db_token, err, next) {
           if (err) {
             logger.error("Cannot retrieve user ID from DB "+err,"appRouter middleware");
-            return res.json({ success: false, message: 'Failed to authenticate token [2].' });       
-          }
-          else if (token != db_token) {            
-            logger.error("Tokens do not match","appRouter middleware");
-            return res.status(401).json({ success: false, message: 'Unauthorized' });       
+            return res.status(401).json({ success: false, message: 'Failed to authenticate token [2].' });       
           }
           // Set the user ID to be used by the handlers
           req.userId = id;          
