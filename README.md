@@ -278,18 +278,29 @@ On error the response is
 The project's configuration is stored in the [config/config.js](config/config.js) file. It contains a production as well as a dev configuration which is automatically determined by the `process.env.NODE_ENV` value ('production' or 'development').
 
 # Testing the API
-To install and test the API follow these steps (recommended to use VS Code):
+To install and test the API follow these steps (recommended to use [VS Code(https://code.visualstudio.com/)]):
 
-1. Make sure [Nodejs](https://nodejs.org/en/download/) is installed (it also installs npm)
-2. Clone the project from Git
-3. Open terminal in the project's folder and type `npm install` (this can be done from VS Code's terminal)
+1. Make sure [NodeJs](https://nodejs.org/en/download/) is installed (it also installs npm)
+2. Clone the project from Git to a folder in your PC
+3. Open terminal (PowerShell for Windows is recommended) in the project's folder and type `npm install` (this can be done from VS Code's terminal as well)
 4. Create a DB on [Atlas](https://www.mongodb.com/cloud/atlas) and create two collections:
     - users
     - tasks
-5. Copy the Connection URI to the DB from Atlas and set the related values in the [config/config.js](config/config.js) file
-6. In the terminal, type `npm start` to start the server
-7. Use a tool such as [Postman](https://www.getpostman.com/) to issue HTTP calls towards the API. Note that the server's default port is 3301
-    - Create a user using the `/api/user/create` API call
+5. Create a document in the `users` collection as follows:
+    {
+        "email":"user@domain.com",
+        "username":"user",
+        "password":"$2b$10$tL4Bypc63wSruu2YmLDr2ufx/fW8HB634uXrhM9/pfSVOQ2mcZxo6",
+        "token":"",
+        "last_login": ""
+    }
+
+* last_login should be of type Date
+* Set the above value to the user's password (only for the first user). This is a hash created by [bcypt](https://www.npmjs.com/package/bcrypt) for the password `1234`
+
+6. Copy the Connection URI to the DB from Atlas and set the related values in the [config/config.js](config/config.js) file
+7. In the terminal, type `npm start` to start the server
+8. Use a tool such as [Postman](https://www.getpostman.com/) to issue HTTP calls towards the API. Note that the server's default port is 3301 (`http://localhost:3301/...`)
     - Call `/api/auth/` to get a token
     - Call the other API options with that token    
 
