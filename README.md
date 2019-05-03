@@ -47,7 +47,7 @@ or as a URI attribute:
 or as a Json in the HTTP body:
 
     {
-    	"token" : the-token
+    	"token" : "the-token"
     }
 
 **Note:** The API expects users to be provisioned on the server with an email and password so it would be able to validate the login credentials. Use the user related API calls to create users.
