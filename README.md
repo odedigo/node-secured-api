@@ -289,7 +289,7 @@ To install and test the API follow these steps (recommended to use [VS Code(http
 5. Create a document in the `users` collection as follows:
 
     `{
-        "email":"user@domain.com",
+        "email":"user@domain.com",        
         "username":"user",
         "password":"$2b$10$tL4Bypc63wSruu2YmLDr2ufx/fW8HB634uXrhM9/pfSVOQ2mcZxo6",
         "token":"",
