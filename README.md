@@ -277,6 +277,22 @@ On error the response is
 # Configuration
 The project's configuration is stored in the [config/config.js](config/config.js) file. It contains a production as well as a dev configuration which is automatically determined by the `process.env.NODE_ENV` value ('production' or 'development').
 
+# Testing the API
+To install and test the API follow these steps (recommended to use VS Code):
+
+1. Make sure [Nodejs](https://nodejs.org/en/download/) is installed (it also installs npm)
+2. Clone the project from Git
+3. Open terminal in the project's folder and type `npm install` (this can be done from VS Code's terminal)
+4. Create a DB on [Atlas](https://www.mongodb.com/cloud/atlas) and create two collections:
+    - users
+    - tasks
+5. Copy the Connection URI to the DB from Atlas and set the related values in the [config/config.js](config/config.js) file
+6. In the terminal, type `npm start` to start the server
+7. Use a tool such as [Postman](https://www.getpostman.com/) to issue HTTP calls towards the API. Note that the server's default port is 3301
+    - Create a user using the `/api/user/create` API call
+    - Call `/api/auth/` to get a token
+    - Call the other API options with that token    
+
 ### Credits and References
 This work was inspired by [Daniel Deutsch](https://github.com/Createdd/Writing/blob/master/2017/articles/AuthenticationIntro.md#structure) and
 [Chris Sevilleja](https://scotch.io/tutorials/authenticate-a-node-js-api-with-json-web-tokens)
