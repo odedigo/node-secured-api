@@ -1,0 +1,15 @@
+{
+    "ErrorCodes" : {
+        "PathNotAllowed" : "Request path not allowed",
+        "FailedServerError" : "Operation failed due to server error",
+        "AuthFailed" : "Authentication failed",
+        "AuthFailedToken3" : "[Err3] Authentication failed",
+        "AuthFailedToken4" : "[Err4] Authentication failed",
+        "AuthFailedToken5" : "[Err5] Authentication failed",
+        "AuthMissingFields" : "Authentication failed. Missing fields",
+        "ServerError10" : "[Err10] Server Error", 
+        "ServerError11" : "[Err11] erver error",
+        "ServerError12" : "[Err12] erver error",
+        "Logout" : "You are now logged out"
+    }
+}
