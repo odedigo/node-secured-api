@@ -41,10 +41,10 @@ else {
         },
         "db" : {
             "protocol": "mongodb+srv://",
-            "host": "<domain>.mongodb.net",
-            "name" : "<db name>",
-            "username": "<username>",
-            "password": "<password>",
+            "host": "occluster0-uzjpb.mongodb.net",
+            "name" : "stories",
+            "username": "odedigo",
+            "password": "B9riGUpL63mpcBB",
             "path": "?retryWrites=true"    
         }
 

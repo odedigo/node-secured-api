@@ -8,31 +8,39 @@ const mongoose  = require("mongoose");
 const Task      = require("../models/TaskModel");
 const config    = require("../config/config");
 const logger    = require("../utils/utils");
+const validator = require('validator')
 
 /**
  * @desc list all stories
  */
 exports.listAllTasks = (req, res) => {
-    Task.find({}, (err, tasks) => {
-    if (err) {
-      res.status(401).json({ success: false, message: "Failed to list all tasks" });     
-      return;      
-    }
-    res.status(200).json(tasks);
-  });
+  Task.find(
+    {}
+  )
+  .then(tasks => {
+    return res.status(200).json(tasks);
+  })
+  .catch(err => {
+    return res.status(401).json({ success: false, message: "Failed to list all tasks" });         
+  })
 };
 
 /**
  * @desc get a task by its id
  */
 exports.getTask = (req, res) => {
-  Task.findById(req.params.taskId , (err, task) => {
-  if (err) {
-    res.status(401).json({ success: false, message: "Failed to retrieve task" });     
-    return;      
-  }
-  res.status(200).json(task);
-});
+  if (!req.params.taskId || validator.isLength(req.params.taskId,{min:3}))
+    return res.status(401).json({ success: false, message: 'API Validation Error: Invalid parameters' });   
+
+  Task.findById(
+    req.params.taskId
+  )
+  .then(task => {
+    res.status(200).json(task);
+  })
+  .catch(err => {
+      return res.status(401).json({ success: false, message: "Failed to retrieve task" });     
+  })
 };
 
 /**
@@ -45,25 +53,26 @@ exports.getTask = (req, res) => {
  * }
  */
 exports.createTask = (req, res) => {
-  if (!req.body.title || !req.body.priority || req.body.priority < 0 || req.body.priority > 3
-      || !req.body.contents) {
+  if (!req.body.title || !req.body.priority || !req.body.contents || 
+      !validator.isInt(req.body.priority,{min:0, max:3})) {
     return res.status(400)
         .json({ success: false, message: 'API Validation Error: Invalid parameters' });
   }
 
-  var taskJson = { 
-    "title" : req.body.title,
-    "priority" : req.body.priority,
-    "owner" : req.userId,
-    "contents" : req.body.contents,
-    "created" : Date.now()
-  };
-  Task.create(taskJson, function(err, newTask) {
-    if (err) {
-      res.status(401).json({ success: false, message: "Failed to create task" });
-      return;
+  Task.create(
+    { 
+      "title" : req.body.title,
+      "priority" : req.body.priority,
+      "owner" : req.userId,
+      "contents" : req.body.contents,
+      "created" : Date.now()
     }
-    res.status(201).json(newTask);
+  )
+  .then(newTask => {
+    return res.status(201).json(newTask);
+  })
+  .catch(err => {
+    return res.status(401).json({ success: false, message: "Failed to create task" });
   })
 };
 
@@ -82,6 +91,7 @@ exports.updateTask = (req, res) => {
     return res.status(400)
         .json({ success: false, message: 'API Validation Error: Invalid parameters' });
   }
+console.log("gere");
   var taskJson = { 
     "modified" : Date.now()
   };
@@ -91,7 +101,6 @@ exports.updateTask = (req, res) => {
     taskJson['priority'] = req.body.priority;
   if (req.body.contents)
     taskJson['contents'] = req.body.contents;
-
   Task.findOneAndUpdate({ _id: req.params.taskId }, taskJson, { new: true }, (err, task) => {
       if (err) {
         res.status(401).json({ success: false, message: "Failed to update task" });
@@ -100,6 +109,20 @@ exports.updateTask = (req, res) => {
       res.status(200).json(task);
     }
   );  
+  
+    /*Task.findOneAndUpdate(
+      { 
+        _id: req.params.taskId 
+      },
+      taskJson, 
+      { new: true }
+    )
+    .then(() => {
+      return res.status(200).json(task);
+    }) 
+    .catch(err => {
+      return res.status(401).json({ success: false, message: "Failed to update task" });
+    })*/
 };
 
 /**
