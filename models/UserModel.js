@@ -47,23 +47,33 @@ UserSchema.pre('save', function (next) {
 
 //authenticate input against database
 UserSchema.statics.authenticate = function (email, password, callback) {
-  UserModel.findOne({ email: email })
-    .exec(function (err, user) {
-      if (err) {
-        return callback(err)
-      } else if (!user) {
-        var err = new Error('User not found.');
-        err.status = 401;
-        return callback(err);
+  UserModel.findOne({
+    email: email 
+  })
+  .then(user => {
+    if (!user) {
+      var err = new Error('User not found.');
+      err.status = 401;
+      callback(err);
+      return;
+    }
+
+    bcrypt.compare(password, user.password, function (err, isMatched) {
+      if (err) callback(err, null);
+      if (!isMatched) {
+        callback(new Error("User not match"), null);
+        return;
       }
-      bcrypt.compare(password, user.password, function (err, result) {
-        if (result === true) {
-          return callback(null, user);
-        } else {
-          return callback();
-        }
-      })
+     
+      // confidential data should not be sent to client
+      var userJson = user.toJSON()
+      delete userJson.password
+
+      callback(null, userJson);
     });
+  })
+  .catch(() => {
+  })
 }
 
 var UserModel = mongoose.model('UserModel', UserSchema);

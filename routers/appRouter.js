@@ -11,6 +11,7 @@ var config            = require('../config/config');
 const logger          = require('../utils/utils');
 var userController    = require("../controllers/UserController");
 var Strings           = require("../config/strings");
+const validator       = require('validator');
 
 var router = express.Router()
 
@@ -22,6 +23,13 @@ router.get('/', function (req, res, next) {
   res.status(403).json({ success: false, message: Strings.ErrorCodes.PathNotAllowed }).send();
 })
 
+/////////////////////////// REGISTRATION //////////////////////////
+
+router.post('/register', function(req, res, next) {
+
+})
+
+
 /////////////////////////// AUTHENTICATION //////////////////////////
 
 // Authenticate a new user (login)
@@ -32,39 +40,53 @@ router.post('/auth', function (req, res, next) {
     return res.status(500).json({success: false, message: Strings.ErrorCodes.FailedServerError });
   }
 
+  const email =req.body.logemail;
+  const password =req.body.logpassword;
+
   // Validate login params (email and password)
-  if (req.body.logemail && req.body.logpassword) {
-    // Authenticate the user.
-    User.authenticate(req.body.logemail, req.body.logpassword, function (error, user) {
-      if (error || !user) {
-        return res.status(401).json({ success: false, message: Strings.ErrorCodes.AuthFailed });
-      } else {
-        // Use JWT to sign and get token
-        const payload = {
-          user : req.body.logemail   
-        };
-
-        var token = jwt.sign(payload, config.auth.secret, {
-          expiresIn :config.auth.token_timeout
-        });
-
-        // Save token to DB
-        userController.saveToken(user._id, token, res, function(res, err) {
-          if (err) {
-            logger.error("Could not save session token to DB for user "+user._id,"appRouter /auth");
-            res.status(500).json({ success: false, token: Strings.ErrorCodes.ServerError10 });
-            return;
-          }
-          // return the information including token as JSON
-          res.set('x-access-token', token);
-          res.json({ success: true, token: token });
-          res.status(200).send();
-        });
-      }
-    });
-  } else {
-    return res.status(400).json({ success: false, message: Strings.ErrorCodes.AuthMissingFields });
+  if (
+    !email ||
+    !password ||
+    !validator.isEmail(email) ||
+    !validator.isLength(password, {
+      min: 4,
+      max: 16
+    })
+  ) {
+    res.status(400).json({ success: false, message: Strings.ErrorCodes.AuthMissingFields })
+    return
   }
+
+  // Authenticate the user.
+  User.authenticate(email, password, function (error, user) {
+    if (error || !user) {
+      return res.status(401).json({ success: false, message: Strings.ErrorCodes.AuthFailed });
+    } else {
+      // Use JWT to sign and get token
+      const payload = {
+        user : email   
+      };
+
+      var token = jwt.sign(payload, config.auth.secret, {
+        expiresIn :config.auth.token_timeout
+      });
+
+      // Save token to DB
+      userController.saveToken(user._id, token, res, function(res, err) {
+        if (err) {
+          logger.error("Could not save session token to DB for user "+user._id,"appRouter /auth");
+          res.status(500).json({ success: false, token: Strings.ErrorCodes.ServerError10 });
+          return;
+        }
+        // return the information including token as JSON
+        res.set('x-access-token', token);
+        res.json({ success: true, token: token });
+        res.status(200).send();
+      });
+
+    }
+  });
+  
 })
 
 /////////////////////////// Router Middleware //////////////////////////

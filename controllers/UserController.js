@@ -42,13 +42,18 @@ exports.createNewUser = (req, res) => {
  * @desc get a user by its id
  */
 exports.getUser = (req, res) => {
-  User.findById(req.params.userId , (err, user) => {
-    if (err) {
-      res.status(401).json({ success: false, message: "Failed to retrieve user" });     
-      return;      
-    }
-    res.status(200).json(user);
-  });
+  if (!req.params.userId) {
+    return res.status(401).json({ success: false, message: "Failed to retrieve user" });     
+  }
+  User.findById(
+    req.params.userId
+  )
+  .then(user => {
+    return res.status(200).json(user);
+  })
+  .catch(() => {
+    return res.status(401).json({ success: false, message: "Failed to retrieve user" });     
+  })
 };
 
 /**
@@ -56,9 +61,17 @@ exports.getUser = (req, res) => {
  * @param token - the requested token
  */
 exports.readUserByToken = (token, next, callback) => {
-  User.findOne({ "token" : token }, '_id, token', (err, user) => {
-    callback(user._id, user.token, err, next);
-  });
+  User.findOne( 
+    { "token" : token },
+    '_id, token'
+  )
+  .then(user => {
+    callback(user._id, user.token, null, next);
+    return;
+  })
+  .catch(() => {
+    callback(user._id, user.token, new Error("Cannot get user"), next);
+  })
 };
 
 /**
