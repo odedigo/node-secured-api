@@ -29,17 +29,18 @@ exports.listAllTasks = (req, res) => {
  * @desc get a task by its id
  */
 exports.getTask = (req, res) => {
-  if (!req.params.taskId || validator.isLength(req.params.taskId,{min:3}))
+
+  if (!req.params.taskId || !validator.isLength(req.params.taskId,{min:3}))
     return res.status(401).json({ success: false, message: 'API Validation Error: Invalid parameters' });   
 
   Task.findById(
     req.params.taskId
   )
   .then(task => {
-    res.status(200).json(task);
+    return res.status(200).json(task);
   })
-  .catch(err => {
-      return res.status(401).json({ success: false, message: "Failed to retrieve task" });     
+  .catch(() => {
+    return res.status(401).json({ success: false, message: "Failed to retrieve task" });     
   })
 };
 
@@ -86,54 +87,57 @@ exports.createTask = (req, res) => {
  * is rejected
  */
 exports.updateTask = (req, res) => {
+
   // if none exist, issue an error
-  if (!req.body.title && !req.body.priority && !req.body.contents) {
+  if ((!req.body.title && !req.body.priority && !req.body.contents) || !req.params.taskId) {
     return res.status(400)
         .json({ success: false, message: 'API Validation Error: Invalid parameters' });
   }
-console.log("gere");
+  
   var taskJson = { 
     "modified" : Date.now()
   };
+  
   if (req.body.title)
     taskJson['title'] = req.body.title;
   if (req.body.priority)
     taskJson['priority'] = req.body.priority;
   if (req.body.contents)
     taskJson['contents'] = req.body.contents;
-  Task.findOneAndUpdate({ _id: req.params.taskId }, taskJson, { new: true }, (err, task) => {
-      if (err) {
-        res.status(401).json({ success: false, message: "Failed to update task" });
-        return;
-      }
-      res.status(200).json(task);
-    }
-  );  
   
-    /*Task.findOneAndUpdate(
-      { 
-        _id: req.params.taskId 
-      },
+  var query = { _id: req.params.taskId  };
+  Task.findOneAndUpdate(
+      query,
       taskJson, 
-      { new: true }
+      { 
+        new: true 
+      }
     )
-    .then(() => {
+    .then(task => {
       return res.status(200).json(task);
     }) 
-    .catch(err => {
+    .catch(() => {
       return res.status(401).json({ success: false, message: "Failed to update task" });
-    })*/
+    })
 };
 
 /**
  * @desc delete given task by its id
  */
 exports.deleteTask = (req, res) => {
-  Task.remove({ _id: req.params.taskId }, (err, task) => {
-    if (err) {
-      res.status(401).json({ success: false, message: "Failed to delete task" });
-      return;
-    }
-    res.status(200).json({ success: true, message: "Task successfully deleted" });
-  });
+  if (!req.params.taskId) {
+    return res.status(400)
+        .json({ success: false, message: 'API Validation Error: Invalid parameters' });
+  }
+
+  Task.deleteOne({
+     _id: req.params.taskId 
+  })
+  .then(() => {
+    return res.status(200).json({ success: true, message: "Task successfully deleted" });
+  })
+  .catch(() => {
+    return res.status(401).json({ success: false, message: "Failed to delete task" });
+  })
+
 };

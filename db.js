@@ -29,7 +29,8 @@ const options = {
   reconnectTries: Number.MAX_VALUE,
   useNewUrlParser: true,
   useCreateIndex: true,
-  poolSize: 10
+  poolSize: 10,
+  useFindAndModify: false
 };
 
 exports.connectToDB = (callback) => {
