@@ -25,9 +25,9 @@ router.get('/', function (req, res, next) {
 
 /////////////////////////// REGISTRATION //////////////////////////
 
-router.post('/register', function(req, res, next) {
-
-})
+router.put('/register', function(req, res, next) {
+  userController.createNewUser(req, res);
+}) 
 
 
 /////////////////////////// AUTHENTICATION //////////////////////////
@@ -40,7 +40,7 @@ router.post('/auth', function (req, res, next) {
     return res.status(500).json({success: false, message: Strings.ErrorCodes.FailedServerError });
   }
 
-  const email =req.body.logemail;
+  const email =req.body.logemail; 
   const password =req.body.logpassword;
 
   // Validate login params (email and password)

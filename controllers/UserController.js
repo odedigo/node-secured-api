@@ -7,6 +7,7 @@
 const mongoose  = require("mongoose");
 const User      = require("../models/UserModel");
 const logger    = require('../utils/utils');
+const validator = require('validator')
 
 /**
  * @desc Creates a new user
@@ -14,28 +15,45 @@ const logger    = require('../utils/utils');
  */
 exports.createNewUser = (req, res) => {
 
-  if (req.body.email &&
-    req.body.username &&
-    req.body.password &&
-    req.body.passwordConf) {
-  
-      var userData = {
-        email: req.body.email,
-        username: req.body.username,
-        password: req.body.password,
-        passwordConf: req.body.passwordConf,
-      }
-  
-      //use schema.create to insert data into the db    
-      let newUser = new User(userData);
-      newUser.save((err, user) => {
-        if (err) {
-          res.status(500).send(err);
-          return;
-        }
-        res.status(201).json({ success: true, message: "User created" });
-      });
+  var email = req.body.email
+  var password = req.body.password
+
+  if (!email ||
+      !password ||
+      !validator.isEmail(email) ||
+      !validator.isLength(password,{min: 4, max: 16})){
+
+    return res.status(401).json({ success: false, message:  'API Validation Error: Invalid parameters' });         
+
+  }
+      
+  var userData = {
+    email: email,
+    password: password,
+  }
+  //use schema.create to insert data into the db    
+  let newUser = new User(userData);
+  User.findOne( {
+      email : userData.email
+  })
+  .then(user => {
+    if (user) {
+      res.status(409).json({success: false, message: "User already exists"});
+      return;
     }
+
+    newUser
+      .save()
+      .then(() => {
+        return res.status(201).json({ success: true, message: "User created" });
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+  })
+  .catch((err) => {
+    console.error(err)
+  })  
 };
 
 /**
