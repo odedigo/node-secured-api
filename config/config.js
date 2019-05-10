@@ -5,48 +5,31 @@
  * April 2019
  */
 
+var options = require('./_options')
+
 //Configure isProduction variable
 const isProduction = process.env.NODE_ENV === 'production';
 if (isProduction) {
     module.exports = { // PRODUCTION config
-        "app" : {
-            "name" : "Node-API",
-            "isProduction" : true,
-            "logger_show_info" : true
-        },
-        "auth" : {
-            "secret" : "G8Ut0VWh6o=djj+@gC&o7<!|D[~LHljjyN?4q*3ILF^DZlR%y",
-            "token_timeout": 60*60*24
-        },
-        "db" : {
-            "protocol": "mongodb+srv://",
-            "host": "<domain>.mongodb.net",
-            "name" : "<db name>",
-            "username": "<username>",
-            "password": "<password>",
-            "path": "?retryWrites=true"    
-        }
+        options: {
+                ...options,
+            app : {
+                name : "Node-API",
+                isProduction : true,
+                logger_show_info : true
+            }
+        }   
     }
 }
 else { 
     module.exports = {  // DEV config
-        "app" : {
-            "name" : "Node-API",
-            "isProduction" : false,
-            "logger_show_info" : true
-        },
-        "auth" : {
-            "secret" : "G8Ut0VWh6o=djj+@gC&o7<!|D[~LHljjyN?4q*3ILF^DZlR%y",
-            "token_timeout": 60*60*1
-        },
-        "db" : {
-            "protocol": "mongodb+srv://",
-            "host": "occluster0-uzjpb.mongodb.net",
-            "name" : "stories",
-            "username": "odedigo",
-            "password": "B9riGUpL63mpcBB",
-            "path": "?retryWrites=true"    
+        options: {
+                ...options,
+            app : {
+                name : "Node-API",
+                isProduction : false,
+                logger_show_info : true
+            }
         }
-
     }
 }

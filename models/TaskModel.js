@@ -7,7 +7,7 @@
 
 var mongoose    = require('mongoose');
 const Entities  = require('html-entities').XmlEntities;
-const config    = require('../config/config');
+const config    = require('../config/config').options;
 const entities  = new Entities();
 
 //Define a schema

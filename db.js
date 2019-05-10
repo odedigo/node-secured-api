@@ -5,7 +5,7 @@
  * April 2019
  */
 const mongoose  = require("mongoose");
-let config      = require("./config/config");
+let config      = require("./config/config").options;
 const logger    = require('./utils/utils');
 
 //Configure mongoose's promise to global promise

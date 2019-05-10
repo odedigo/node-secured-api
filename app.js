@@ -6,7 +6,7 @@
  */
 const express     = require("express");
 const bodyParser  = require("body-parser");
-var config        = require('./config/config');
+var config        = require('./config/config').options;
 var compression   = require('compression');
 var appDb         = require("./db");     
 var logger        = require('./utils/utils');

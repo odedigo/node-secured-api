@@ -5,7 +5,7 @@
  * April 2019
  */
 var colors = require('colors');
-var config = require('../config/config');
+var config = require('../config/config').options;
 
 /** 
  * @desc writes INFO messages to the console
