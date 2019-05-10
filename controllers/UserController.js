@@ -49,10 +49,12 @@ exports.createNewUser = (req, res) => {
       })
       .catch((err) => {
         console.error(err);
+        next
       })
   })
   .catch((err) => {
     console.error(err)
+    next
   })  
 };
 
@@ -73,6 +75,8 @@ exports.getUser = (req, res) => {
     return res.status(401).json({ success: false, message: "Failed to retrieve user" });     
   })
 };
+
+/************ INTERNAL API NOT EXPOSED TO APPLICATION *************/
 
 /**
  * @desc Retrieves a user by its token value

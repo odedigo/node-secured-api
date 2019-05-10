@@ -71,7 +71,7 @@ When a request arrives, the application looks for the authentication token in th
 
 If the token exists, it uses JWT to verify the token's validity. If not valid, it responds with a `401`.
 
-Ifthe token is valid, it looks for a user (in the DB) with a matching token. If such a user is not found, an `401` response is sent back. 
+If the token is valid, it looks for a user (in the DB) with a matching token. If such a user is not found, an `401` response is sent back. 
 
 if a user is found, the appRouter forwards the request to the subsequent routers.
 
@@ -216,21 +216,17 @@ Example: DELETE `/api/task/delete/5cc8392af6eb52092c672fa7`
 The project provides several user related APIs as well as some internal user related functions used by the authentication process
 
 ## Create a new user
-To create a new user, issue a PUT request to `/api/user/create` with Json in the HTTP body containing 4 parameters (similar to an HTML form)
-1. Username
-2. Email
-3. Password
-4. Password confirmation (retype the password)
+To create a new user, issue a PUT request to `/api/register` with Json in the HTTP body containing 2 parameters (similar to an HTML form)
+1. Email
+2. Password
 
 The response is a Json describing the newly created user
 
 Example:
 
     {
-	"username": "someone",
 	"email" : "me@something.com",
 	"password" : "this is a password"
-	"passwordConf" : "this is a password"
 	}
 
 Response:  `HTTP response code: 201`
@@ -240,13 +236,11 @@ Response:  `HTTP response code: 201`
         "message": "User created"
     }
 
-If the email or username is already in the DB, the response is
+If the email or username is already in the DB, the response is `409` with
+
     {
-        "driver": true,
-        "name": "MongoError",
-        "index": 0,
-        "code": 11000,
-        "errmsg": "E11000 duplicate key error collection: stories.users index: email_1 dup key: { : \"user@email.com\" }"
+    "success": false,
+    "message": "User already exists"
     }
 
 ## Get a user
@@ -282,24 +276,12 @@ To install and test the API follow these steps (recommended to use [VS Code(http
 4. Create a DB on [Atlas](https://www.mongodb.com/cloud/atlas) and create two collections:
     - users
     - tasks
-5. Create a document in the `users` collection as follows:
-
-    `{
-        "email":"user@domain.com",
-        "username":"user",
-        "password":"$2b$10$tL4Bypc63wSruu2YmLDr2ufx/fW8HB634uXrhM9/pfSVOQ2mcZxo6",
-        "token":"",
-        "last_login": ""
-    }`
-
-* last_login should be of type Date
-* Set the above value to the user's password (only for the first user). This is a hash created by [bcypt](https://www.npmjs.com/package/bcrypt) for the password `1234`
-
-6. Copy the Connection URI to the DB from Atlas and set the related values in the [config/config.js](config/config.js) file
-7. In the terminal, type `npm start` to start the server
-8. Use a tool such as [Postman](https://www.getpostman.com/) to issue HTTP calls towards the API. Note that the server's default port is 3301 (`http://localhost:3301/...`)
-    - Call `/api/auth/` to get a token
-    - Call the other API options with that token    
+5. Copy the Connection URI to the DB from Atlas and set the related values in the [config/config.js](config/config.js) file
+6. In the terminal, type `npm start` to start the server
+7. Use a tool such as [Postman](https://www.getpostman.com/) to issue HTTP calls towards the API. Note that the server's default port is 3301 (`http://localhost:3301/...`)
+8. Isse a `/api/register` call to create a user in the DB
+9. Authenticate the newly created user using `/api/auth` and get a token for subsequent calls
+10. Call any of the Task APIs
 
 ### Credits and References
 This work was inspired by [Daniel Deutsch](https://github.com/Createdd/Writing/blob/master/2017/articles/AuthenticationIntro.md#structure) and

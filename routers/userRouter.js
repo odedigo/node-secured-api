@@ -10,15 +10,6 @@ const userController   = require("../controllers/UserController");
 var router = express.Router();
 
 /**
- * @desc create a new task
- * @param req.body is a json with 
- * 
- */
-router.put('/create', function (req, res) {
-    userController.createNewUser(req, res);
-})
-
-/**
  * @desc get  a user
  * @param userId is the id
  * 

@@ -48,7 +48,7 @@ router.post('/auth', function (req, res, next) {
     !email ||
     !password ||
     !validator.isEmail(email) ||
-    !validator.isLength(password, {
+    !validator.isLength(password, { 
       min: 4,
       max: 16
     })
