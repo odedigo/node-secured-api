@@ -33,7 +33,7 @@ exports.error = (str) => {
  * @desc writes a seperator to the console
  */
 exports.separator = () => {
-    console.log("====================== ".gray+config.app.name.white+" ======================".gray);
+    console.log("============================================ ".gray+config.app.name.white+" ============================================".gray);
 }
 
 /**

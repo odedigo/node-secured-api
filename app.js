@@ -19,6 +19,8 @@ var userRouter    = require('./routers/userRouter');
 config.app.isProduction = process.env.NODE_ENV === 'production';
 
 logger.separator();
+logger.info("Starting "+config.app.name+"...");
+
 
 // TODO - production hardening
 
