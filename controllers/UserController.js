@@ -8,6 +8,7 @@ const mongoose  = require("mongoose");
 const User      = require("../models/UserModel");
 const logger    = require('../utils/utils');
 const validator = require('validator')
+var Strings     = require("../config/strings");
 
 /**
  * @desc Creates a new user
@@ -23,7 +24,7 @@ exports.createNewUser = (req, res) => {
       !validator.isEmail(email) ||
       !validator.isLength(password,{min: 4, max: 16})){
 
-    return res.status(401).json({ success: false, message:  'API Validation Error: Invalid parameters' });         
+    return res.status(401).json({ success: false, message: Strings.ErrorCodes.InvalidParams });         
 
   }
       
@@ -38,14 +39,14 @@ exports.createNewUser = (req, res) => {
   })
   .then(user => {
     if (user) {
-      res.status(409).json({success: false, message: "User already exists"});
+      res.status(409).json({success: false, message: Strings.Users.AlreadyExists });
       return;
     }
 
     newUser
       .save()
       .then(() => {
-        return res.status(201).json({ success: true, message: "User created" });
+        return res.status(201).json({ success: true, message: Strings.Users.OkCreated });
       })
       .catch((err) => {
         console.error(err);
@@ -63,7 +64,7 @@ exports.createNewUser = (req, res) => {
  */
 exports.getUser = (req, res) => {
   if (!req.params.userId) {
-    return res.status(401).json({ success: false, message: "Failed to retrieve user" });     
+    return res.status(401).json({ success: false, message: Strings.Users.ErrorRetrieve });     
   }
   User.findById(
     req.params.userId
@@ -72,7 +73,7 @@ exports.getUser = (req, res) => {
     return res.status(200).json(user);
   })
   .catch(() => {
-    return res.status(401).json({ success: false, message: "Failed to retrieve user" });     
+    return res.status(401).json({ success: false, message: Strings.Users.ErrorRetrieve });     
   })
 };
 
@@ -92,7 +93,7 @@ exports.readUserByToken = (token, next, callback) => {
     return;
   })
   .catch(() => {
-    callback(user._id, user.token, new Error("Cannot get user"), next);
+    callback(user._id, user.token, new Error(Strings.Users.ErrorRetrieve), next);
   })
 };
 
@@ -106,7 +107,7 @@ exports.saveToken = (userid, token, res, callback) => {
   var newvalues = {"token" : token , last_login : Date.now()} ;
   User.updateOne(condition, newvalues, (err) => {
     if (err) {      
-      logger.error("Error saving token to DB","UserController.saveToken");
+      logger.error(Strings.ErrorCodes.AuthTokenSave);
       callback(res, err);
       return;
     }

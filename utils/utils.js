@@ -12,10 +12,10 @@ var config = require('../config/config');
  * @param str - the message
  * @param where - the location in the code from which the call was made
  */
-exports.info = (str, where) => {
-    if (config.app.logger_show_info) {           
+exports.info = (str) => {
+    if (config.app.logger_show_info) {                   
         var name = "["+config.app.name+"]";
-        console.log(name.bold.gray+" INFO: ".bold.yellow + "[".gray+where.gray+"] ".gray + str.yellow);
+        console.log(/*name.bold.gray+*/"INFO: ".bold.yellow + "[".gray+debugLine().gray+"] ".gray + str.yellow);
     }
 }
 
@@ -24,9 +24,9 @@ exports.info = (str, where) => {
  * @param str - the message
  * @param where - the location in the code from which the call was made
  */
-exports.error = (str, where) => {
+exports.error = (str) => {
     var name = "["+config.app.name+"] ";
-    console.log(name.bold.gray+'ERROR:'.bold.bgRed.white + "[".gray+where.gray+"] ".gray + str.red);
+    console.log(/*name.bold.gray+*/'ERROR:'.bold.bgRed.white + "[".gray+debugLine().gray+"] ".gray + str.red);
 }
 
 /** 
@@ -34,4 +34,15 @@ exports.error = (str, where) => {
  */
 exports.separator = () => {
     console.log("====================== ".gray+config.app.name.white+" ======================".gray);
+}
+
+/**
+ * Extracts the file and line where the call was made of 
+ */
+function debugLine() {
+    let e = new Error();
+    let frame = e.stack.split("\n")[3];
+    let lineNumber = frame.split(":")[2];
+    let functionName = frame.split(" ")[5];
+    return functionName + ":" + lineNumber;
 }

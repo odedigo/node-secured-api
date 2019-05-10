@@ -61,7 +61,7 @@ app.post('*', function(req, res){
 appDb.connectToDB(function(status) {
   // Start server (listen)
   app.listen(port, () => {
-    logger.info(`Server running at http://localhost:${port}`,"app.js");
+    logger.info(`Server running at http://localhost:${port}`);
   });
   app.set('db_connected', status);  // mark connected or not
 });

@@ -74,7 +74,7 @@ router.post('/auth', function (req, res, next) {
       // Save token to DB
       userController.saveToken(user._id, token, res, function(res, err) {
         if (err) {
-          logger.error("Could not save session token to DB for user "+user._id,"appRouter /auth");
+          logger.error("Could not save session token to DB for user "+user._id);
           res.status(500).json({ success: false, token: Strings.ErrorCodes.ServerError10 });
           return;
         }
@@ -93,7 +93,7 @@ router.post('/auth', function (req, res, next) {
 router.use(function(req, res, next) {
   // Check if connected to DB. Fail if not.
   if(!req.app.get("db_connected")) {
-    logger.error("No DB connection","appRouter");
+    logger.error("No DB connection");
     return res.status(500).json({success: false, message: Strings.ErrorCodes.ServerError11 });
   }
 
@@ -104,7 +104,7 @@ router.use(function(req, res, next) {
     // verifies secret and checks exp
     jwt.verify(token, config.auth.secret, function(err, decoded) {       
       if (err) {
-        logger.info('Failed to authenticate token [1].',"appRouter");
+        logger.info('Failed to authenticate token [1].');
         return res.json({ success: false, message: Strings.ErrorCodes.AuthFailedToken3 });       
       } else {
         // if everything is good, save to request for use in other routes
@@ -112,7 +112,7 @@ router.use(function(req, res, next) {
         // Get the user from DB
         userController.readUserByToken(token, next, function (id, db_token, err, next) {
           if (err) {
-            logger.error("Cannot retrieve user ID from DB "+err,"appRouter middleware");
+            logger.error("Cannot retrieve user ID from DB "+err);
             return res.status(401).json({ success: false, message: Strings.ErrorCodes.AuthFailedToken4 });       
           }
           // Set the user ID to be used by the handlers
@@ -133,7 +133,7 @@ router.get('/logout', function (req, res, next) {
   // Save token to DB
   userController.saveToken(req.userId, "Invalid" , res, function(res, err) {
       if (err) {
-        logger.error("Could not save session token to DB for user "+req.userId,"appRouter /logout");
+        logger.error("Could not save session token to DB for user "+req.userId);
         return res.status(500).send({ success: false, message: Strings.ErrorCodes.ServerError12 });
       }
       res.json({ success: true, message: Strings.ErrorCodes.Logout });

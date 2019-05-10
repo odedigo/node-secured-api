@@ -37,11 +37,11 @@ exports.connectToDB = (callback) => {
 // Connect to MongoDB 
     var db = mongoose.connect(getDbUri(), options).then(
     () => {
-      logger.info("Database connection established!","db.connectToDB");
+      logger.info("Database connection established!");
       callback(true);
     },
     err => {
-      logger.info("Error connecting Database instance due to "+err,"db.connectToDB");
+      logger.info("Error connecting Database instance due to "+err);
       callback(false);
     }
   );

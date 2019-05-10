@@ -21,7 +21,7 @@ exports.listAllTasks = (req, res) => {
     return res.status(200).json(tasks);
   })
   .catch(err => {
-    return res.status(401).json({ success: false, message: "Failed to list all tasks" });         
+    return res.status(401).json({ success: false, message: Strings.Tasks.ErrorList });         
   })
 };
 
@@ -31,7 +31,7 @@ exports.listAllTasks = (req, res) => {
 exports.getTask = (req, res) => {
 
   if (!req.params.taskId || !validator.isLength(req.params.taskId,{min:3}))
-    return res.status(401).json({ success: false, message: 'API Validation Error: Invalid parameters' });   
+    return res.status(401).json({ success: false, message: Strings.ErrorCodes.InvalidParams });   
 
   Task.findById(
     req.params.taskId
@@ -40,7 +40,7 @@ exports.getTask = (req, res) => {
     return res.status(200).json(task);
   })
   .catch(() => {
-    return res.status(401).json({ success: false, message: "Failed to retrieve task" });     
+    return res.status(401).json({ success: false, message: Strings.Tasks.ErrorRetrieve });     
   })
 };
 
@@ -57,7 +57,7 @@ exports.createTask = (req, res) => {
   if (!req.body.title || !req.body.priority || !req.body.contents || 
       !validator.isInt(req.body.priority,{min:0, max:3})) {
     return res.status(400)
-        .json({ success: false, message: 'API Validation Error: Invalid parameters' });
+        .json({ success: false, message: Strings.ErrorCodes.InvalidParams });
   }
 
   Task.create(
@@ -73,7 +73,7 @@ exports.createTask = (req, res) => {
     return res.status(201).json(newTask);
   })
   .catch(err => {
-    return res.status(401).json({ success: false, message: "Failed to create task" });
+    return res.status(401).json({ success: false, message: Strings.Tasks.ErrorCreate });
   })
 };
 
@@ -91,7 +91,7 @@ exports.updateTask = (req, res) => {
   // if none exist, issue an error
   if ((!req.body.title && !req.body.priority && !req.body.contents) || !req.params.taskId) {
     return res.status(400)
-        .json({ success: false, message: 'API Validation Error: Invalid parameters' });
+        .json({ success: false, message: Strings.ErrorCodes.InvalidParams });
   }
   
   var taskJson = { 
@@ -117,7 +117,7 @@ exports.updateTask = (req, res) => {
       return res.status(200).json(task);
     }) 
     .catch(() => {
-      return res.status(401).json({ success: false, message: "Failed to update task" });
+      return res.status(401).json({ success: false, message: Strings.Tasks.ErrorUpdate });
     })
 };
 
@@ -127,17 +127,17 @@ exports.updateTask = (req, res) => {
 exports.deleteTask = (req, res) => {
   if (!req.params.taskId) {
     return res.status(400)
-        .json({ success: false, message: 'API Validation Error: Invalid parameters' });
+        .json({ success: false, message: Strings.ErrorCodes.InvalidParams });
   }
 
   Task.deleteOne({
      _id: req.params.taskId 
   })
   .then(() => {
-    return res.status(200).json({ success: true, message: "Task successfully deleted" });
+    return res.status(200).json({ success: true, message: Strings.Tasks.OkDeleted });
   })
   .catch(() => {
-    return res.status(401).json({ success: false, message: "Failed to delete task" });
+    return res.status(401).json({ success: false, message: Strings.Tasks.ErrorDelete });
   })
 
 };

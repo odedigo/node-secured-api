@@ -9,7 +9,22 @@
         "AuthMissingFields" : "Authentication failed. Missing fields",
         "ServerError10" : "[Err10] Server Error", 
         "ServerError11" : "[Err11] erver error",
-        "ServerError12" : "[Err12] erver error",
-        "Logout" : "You are now logged out"
+        "ServerError12" : "[Err12] erver error",        
+        "Logout" : "You are now logged out",        
+        "AuthTokenSave" : "Error saving token to DB",
+        "InvalidParams" : "API Validation Error: Invalid parameters"
+    }, 
+    "Tasks" : {
+        "ErrorList" : "Failed to list all tasks",
+        "ErrorRetrieve" : "Failed to retrieve task",
+        "ErrorCreate" : "Failed to create task",
+        "ErrorUpdate" : "Failed to update task",
+        "ErrorDelete" : "Failed to delete task",
+        "OkDeleted" : "Task successfully deleted"
+    },
+    "Users" : {
+        "ErrorAlreadyExists" : "User already exists",
+        "ErrorRetrieve" : "Failed to retrieve user",
+        "OkCreated" : "User created"
     }
 }
